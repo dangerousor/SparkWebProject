@@ -1,0 +1,144 @@
+Spark Command: /home/ceny/jdk1.7.0_79/bin/java -cp /home/ceny/tools/spark-2.0.2-bin-hadoop2.7/conf/:/home/ceny/tools/spark-2.0.2-bin-hadoop2.7/jars/* -Xmx1g -XX:MaxPermSize=256m org.apache.spark.deploy.worker.Worker --webui-port 8081 spark://127.0.0.1:7077
+========================================
+Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties
+16/12/19 02:52:59 INFO Worker: Started daemon with process name: 7473@master
+16/12/19 02:52:59 INFO SignalUtils: Registered signal handler for TERM
+16/12/19 02:52:59 INFO SignalUtils: Registered signal handler for HUP
+16/12/19 02:52:59 INFO SignalUtils: Registered signal handler for INT
+16/12/19 02:52:59 WARN Utils: Your hostname, master resolves to a loopback address: 127.0.0.1; using 192.168.1.116 instead (on interface wlan0)
+16/12/19 02:52:59 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
+16/12/19 02:52:59 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+16/12/19 02:53:00 INFO SecurityManager: Changing view acls to: ceny
+16/12/19 02:53:00 INFO SecurityManager: Changing modify acls to: ceny
+16/12/19 02:53:00 INFO SecurityManager: Changing view acls groups to: 
+16/12/19 02:53:00 INFO SecurityManager: Changing modify acls groups to: 
+16/12/19 02:53:00 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(ceny); groups with view permissions: Set(); users  with modify permissions: Set(ceny); groups with modify permissions: Set()
+16/12/19 02:53:00 INFO Utils: Successfully started service 'sparkWorker' on port 58648.
+16/12/19 02:53:00 INFO Worker: Starting Spark worker 192.168.1.116:58648 with 4 cores, 6.7 GB RAM
+16/12/19 02:53:00 INFO Worker: Running Spark version 2.0.2
+16/12/19 02:53:00 INFO Worker: Spark home: /home/ceny/tools/spark-2.0.2-bin-hadoop2.7
+16/12/19 02:53:00 INFO Utils: Successfully started service 'WorkerUI' on port 8081.
+16/12/19 02:53:00 INFO WorkerWebUI: Bound WorkerWebUI to 0.0.0.0, and started at http://192.168.1.116:8081
+16/12/19 02:53:00 INFO Worker: Connecting to master 127.0.0.1:7077...
+16/12/19 02:53:00 INFO TransportClientFactory: Successfully created connection to /127.0.0.1:7077 after 24 ms (0 ms spent in bootstraps)
+16/12/19 02:53:00 INFO Worker: Successfully registered with master spark://127.0.0.1:7077
+16/12/19 02:54:52 INFO Worker: Asked to launch executor app-20161219025452-0000/0 for SPARK_MODEL
+16/12/19 02:54:52 INFO SecurityManager: Changing view acls to: ceny
+16/12/19 02:54:52 INFO SecurityManager: Changing modify acls to: ceny
+16/12/19 02:54:52 INFO SecurityManager: Changing view acls groups to: 
+16/12/19 02:54:52 INFO SecurityManager: Changing modify acls groups to: 
+16/12/19 02:54:52 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(ceny); groups with view permissions: Set(); users  with modify permissions: Set(ceny); groups with modify permissions: Set()
+16/12/19 02:54:52 INFO ExecutorRunner: Launch command: "/home/ceny/jdk1.7.0_79/bin/java" "-cp" "/home/ceny/tools/spark-2.0.2-bin-hadoop2.7/conf/:/home/ceny/tools/spark-2.0.2-bin-hadoop2.7/jars/*" "-Xmx1024M" "-Dspark.driver.port=37376" "-XX:MaxPermSize=256m" "org.apache.spark.executor.CoarseGrainedExecutorBackend" "--driver-url" "spark://CoarseGrainedScheduler@192.168.1.116:37376" "--executor-id" "0" "--hostname" "192.168.1.116" "--cores" "4" "--app-id" "app-20161219025452-0000" "--worker-url" "spark://Worker@192.168.1.116:58648"
+16/12/19 02:55:00 INFO Worker: Asked to kill executor app-20161219025452-0000/0
+16/12/19 02:55:00 INFO ExecutorRunner: Runner thread for executor app-20161219025452-0000/0 interrupted
+16/12/19 02:55:00 INFO ExecutorRunner: Killing process!
+16/12/19 02:55:00 INFO Worker: Executor app-20161219025452-0000/0 finished with state KILLED exitStatus 0
+16/12/19 02:55:00 INFO Worker: Cleaning up local directories for application app-20161219025452-0000
+16/12/19 02:55:00 INFO ExternalShuffleBlockResolver: Application app-20161219025452-0000 removed, cleanupLocalDirs = true
+16/12/19 02:55:20 INFO Worker: Asked to launch executor app-20161219025520-0001/0 for SPARK_TASK
+16/12/19 02:55:20 INFO SecurityManager: Changing view acls to: ceny
+16/12/19 02:55:20 INFO SecurityManager: Changing modify acls to: ceny
+16/12/19 02:55:20 INFO SecurityManager: Changing view acls groups to: 
+16/12/19 02:55:20 INFO SecurityManager: Changing modify acls groups to: 
+16/12/19 02:55:20 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(ceny); groups with view permissions: Set(); users  with modify permissions: Set(ceny); groups with modify permissions: Set()
+16/12/19 02:55:20 INFO ExecutorRunner: Launch command: "/home/ceny/jdk1.7.0_79/bin/java" "-cp" "/home/ceny/tools/spark-2.0.2-bin-hadoop2.7/conf/:/home/ceny/tools/spark-2.0.2-bin-hadoop2.7/jars/*" "-Xmx1024M" "-Dspark.driver.port=54912" "-XX:MaxPermSize=256m" "org.apache.spark.executor.CoarseGrainedExecutorBackend" "--driver-url" "spark://CoarseGrainedScheduler@192.168.1.116:54912" "--executor-id" "0" "--hostname" "192.168.1.116" "--cores" "4" "--app-id" "app-20161219025520-0001" "--worker-url" "spark://Worker@192.168.1.116:58648"
+16/12/19 02:57:10 INFO Worker: Asked to kill executor app-20161219025520-0001/0
+16/12/19 02:57:10 INFO ExecutorRunner: Runner thread for executor app-20161219025520-0001/0 interrupted
+16/12/19 02:57:10 INFO ExecutorRunner: Killing process!
+16/12/19 02:57:10 INFO Worker: Executor app-20161219025520-0001/0 finished with state KILLED exitStatus 143
+16/12/19 02:57:10 INFO Worker: Cleaning up local directories for application app-20161219025520-0001
+16/12/19 02:57:10 INFO ExternalShuffleBlockResolver: Application app-20161219025520-0001 removed, cleanupLocalDirs = true
+16/12/19 03:01:45 INFO Worker: Asked to launch executor app-20161219030145-0002/0 for SPARK_MODEL
+16/12/19 03:01:45 INFO SecurityManager: Changing view acls to: ceny
+16/12/19 03:01:45 INFO SecurityManager: Changing modify acls to: ceny
+16/12/19 03:01:45 INFO SecurityManager: Changing view acls groups to: 
+16/12/19 03:01:45 INFO SecurityManager: Changing modify acls groups to: 
+16/12/19 03:01:45 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(ceny); groups with view permissions: Set(); users  with modify permissions: Set(ceny); groups with modify permissions: Set()
+16/12/19 03:01:45 INFO ExecutorRunner: Launch command: "/home/ceny/jdk1.7.0_79/bin/java" "-cp" "/home/ceny/tools/spark-2.0.2-bin-hadoop2.7/conf/:/home/ceny/tools/spark-2.0.2-bin-hadoop2.7/jars/*" "-Xmx1024M" "-Dspark.driver.port=42855" "-XX:MaxPermSize=256m" "org.apache.spark.executor.CoarseGrainedExecutorBackend" "--driver-url" "spark://CoarseGrainedScheduler@192.168.1.116:42855" "--executor-id" "0" "--hostname" "192.168.1.116" "--cores" "4" "--app-id" "app-20161219030145-0002" "--worker-url" "spark://Worker@192.168.1.116:58648"
+16/12/19 03:01:56 INFO Worker: Asked to kill executor app-20161219030145-0002/0
+16/12/19 03:01:56 INFO ExecutorRunner: Runner thread for executor app-20161219030145-0002/0 interrupted
+16/12/19 03:01:56 INFO ExecutorRunner: Killing process!
+16/12/19 03:01:56 INFO Worker: Executor app-20161219030145-0002/0 finished with state KILLED exitStatus 0
+16/12/19 03:01:56 INFO Worker: Cleaning up local directories for application app-20161219030145-0002
+16/12/19 03:01:56 INFO ExternalShuffleBlockResolver: Application app-20161219030145-0002 removed, cleanupLocalDirs = true
+16/12/19 03:02:04 INFO Worker: Asked to launch executor app-20161219030204-0003/0 for SPARK_TASK
+16/12/19 03:02:04 INFO SecurityManager: Changing view acls to: ceny
+16/12/19 03:02:04 INFO SecurityManager: Changing modify acls to: ceny
+16/12/19 03:02:04 INFO SecurityManager: Changing view acls groups to: 
+16/12/19 03:02:04 INFO SecurityManager: Changing modify acls groups to: 
+16/12/19 03:02:04 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(ceny); groups with view permissions: Set(); users  with modify permissions: Set(ceny); groups with modify permissions: Set()
+16/12/19 03:02:04 INFO ExecutorRunner: Launch command: "/home/ceny/jdk1.7.0_79/bin/java" "-cp" "/home/ceny/tools/spark-2.0.2-bin-hadoop2.7/conf/:/home/ceny/tools/spark-2.0.2-bin-hadoop2.7/jars/*" "-Xmx1024M" "-Dspark.driver.port=51372" "-XX:MaxPermSize=256m" "org.apache.spark.executor.CoarseGrainedExecutorBackend" "--driver-url" "spark://CoarseGrainedScheduler@192.168.1.116:51372" "--executor-id" "0" "--hostname" "192.168.1.116" "--cores" "4" "--app-id" "app-20161219030204-0003" "--worker-url" "spark://Worker@192.168.1.116:58648"
+16/12/19 03:02:11 INFO Worker: Asked to kill executor app-20161219030204-0003/0
+16/12/19 03:02:11 INFO ExecutorRunner: Runner thread for executor app-20161219030204-0003/0 interrupted
+16/12/19 03:02:11 INFO ExecutorRunner: Killing process!
+16/12/19 03:02:11 INFO Worker: Executor app-20161219030204-0003/0 finished with state KILLED exitStatus 0
+16/12/19 03:02:11 INFO Worker: Cleaning up local directories for application app-20161219030204-0003
+16/12/19 03:02:11 INFO ExternalShuffleBlockResolver: Application app-20161219030204-0003 removed, cleanupLocalDirs = true
+16/12/19 03:26:52 INFO Worker: Asked to launch executor app-20161219032652-0004/0 for SPARK_MODEL
+16/12/19 03:26:52 INFO SecurityManager: Changing view acls to: ceny
+16/12/19 03:26:52 INFO SecurityManager: Changing modify acls to: ceny
+16/12/19 03:26:52 INFO SecurityManager: Changing view acls groups to: 
+16/12/19 03:26:52 INFO SecurityManager: Changing modify acls groups to: 
+16/12/19 03:26:52 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(ceny); groups with view permissions: Set(); users  with modify permissions: Set(ceny); groups with modify permissions: Set()
+16/12/19 03:26:52 INFO ExecutorRunner: Launch command: "/home/ceny/jdk1.7.0_79/bin/java" "-cp" "/home/ceny/tools/spark-2.0.2-bin-hadoop2.7/conf/:/home/ceny/tools/spark-2.0.2-bin-hadoop2.7/jars/*" "-Xmx1024M" "-Dspark.driver.port=36366" "-XX:MaxPermSize=256m" "org.apache.spark.executor.CoarseGrainedExecutorBackend" "--driver-url" "spark://CoarseGrainedScheduler@192.168.1.116:36366" "--executor-id" "0" "--hostname" "192.168.1.116" "--cores" "4" "--app-id" "app-20161219032652-0004" "--worker-url" "spark://Worker@192.168.1.116:58648"
+16/12/19 03:27:00 INFO Worker: Asked to kill executor app-20161219032652-0004/0
+16/12/19 03:27:00 INFO ExecutorRunner: Runner thread for executor app-20161219032652-0004/0 interrupted
+16/12/19 03:27:00 INFO ExecutorRunner: Killing process!
+16/12/19 03:27:00 INFO Worker: Executor app-20161219032652-0004/0 finished with state KILLED exitStatus 143
+16/12/19 03:27:00 INFO Worker: Cleaning up local directories for application app-20161219032652-0004
+16/12/19 03:27:00 INFO ExternalShuffleBlockResolver: Application app-20161219032652-0004 removed, cleanupLocalDirs = true
+16/12/19 05:36:40 INFO Worker: Asked to launch executor app-20161219053640-0005/0 for SPARK_TASK
+16/12/19 05:36:40 INFO SecurityManager: Changing view acls to: ceny
+16/12/19 05:36:40 INFO SecurityManager: Changing modify acls to: ceny
+16/12/19 05:36:40 INFO SecurityManager: Changing view acls groups to: 
+16/12/19 05:36:40 INFO SecurityManager: Changing modify acls groups to: 
+16/12/19 05:36:40 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(ceny); groups with view permissions: Set(); users  with modify permissions: Set(ceny); groups with modify permissions: Set()
+16/12/19 05:36:40 INFO ExecutorRunner: Launch command: "/home/ceny/jdk1.7.0_79/bin/java" "-cp" "/home/ceny/tools/spark-2.0.2-bin-hadoop2.7/conf/:/home/ceny/tools/spark-2.0.2-bin-hadoop2.7/jars/*" "-Xmx1024M" "-Dspark.driver.port=40789" "-XX:MaxPermSize=256m" "org.apache.spark.executor.CoarseGrainedExecutorBackend" "--driver-url" "spark://CoarseGrainedScheduler@192.168.1.116:40789" "--executor-id" "0" "--hostname" "192.168.1.116" "--cores" "4" "--app-id" "app-20161219053640-0005" "--worker-url" "spark://Worker@192.168.1.116:58648"
+16/12/19 05:36:52 INFO Worker: Asked to kill executor app-20161219053640-0005/0
+16/12/19 05:36:52 INFO ExecutorRunner: Runner thread for executor app-20161219053640-0005/0 interrupted
+16/12/19 05:36:52 INFO ExecutorRunner: Killing process!
+16/12/19 05:36:52 INFO Worker: Executor app-20161219053640-0005/0 finished with state KILLED exitStatus 0
+16/12/19 05:36:52 INFO Worker: Cleaning up local directories for application app-20161219053640-0005
+16/12/19 05:36:52 INFO ExternalShuffleBlockResolver: Application app-20161219053640-0005 removed, cleanupLocalDirs = true
+16/12/19 05:38:49 INFO Worker: Asked to launch executor app-20161219053849-0006/0 for SPARK_MODEL
+16/12/19 05:38:49 INFO SecurityManager: Changing view acls to: ceny
+16/12/19 05:38:49 INFO SecurityManager: Changing modify acls to: ceny
+16/12/19 05:38:49 INFO SecurityManager: Changing view acls groups to: 
+16/12/19 05:38:49 INFO SecurityManager: Changing modify acls groups to: 
+16/12/19 05:38:49 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(ceny); groups with view permissions: Set(); users  with modify permissions: Set(ceny); groups with modify permissions: Set()
+16/12/19 05:38:49 INFO ExecutorRunner: Launch command: "/home/ceny/jdk1.7.0_79/bin/java" "-cp" "/home/ceny/tools/spark-2.0.2-bin-hadoop2.7/conf/:/home/ceny/tools/spark-2.0.2-bin-hadoop2.7/jars/*" "-Xmx1024M" "-Dspark.driver.port=39869" "-XX:MaxPermSize=256m" "org.apache.spark.executor.CoarseGrainedExecutorBackend" "--driver-url" "spark://CoarseGrainedScheduler@192.168.1.116:39869" "--executor-id" "0" "--hostname" "192.168.1.116" "--cores" "4" "--app-id" "app-20161219053849-0006" "--worker-url" "spark://Worker@192.168.1.116:58648"
+16/12/19 05:39:00 INFO Worker: Asked to kill executor app-20161219053849-0006/0
+16/12/19 05:39:00 INFO ExecutorRunner: Runner thread for executor app-20161219053849-0006/0 interrupted
+16/12/19 05:39:00 INFO ExecutorRunner: Killing process!
+16/12/19 05:39:00 INFO Worker: Executor app-20161219053849-0006/0 finished with state KILLED exitStatus 143
+16/12/19 05:39:00 INFO Worker: Cleaning up local directories for application app-20161219053849-0006
+16/12/19 05:39:00 INFO ExternalShuffleBlockResolver: Application app-20161219053849-0006 removed, cleanupLocalDirs = true
+16/12/19 05:39:06 INFO Worker: Asked to launch executor app-20161219053906-0007/0 for SPARK_TASK
+16/12/19 05:39:06 INFO SecurityManager: Changing view acls to: ceny
+16/12/19 05:39:06 INFO SecurityManager: Changing modify acls to: ceny
+16/12/19 05:39:06 INFO SecurityManager: Changing view acls groups to: 
+16/12/19 05:39:06 INFO SecurityManager: Changing modify acls groups to: 
+16/12/19 05:39:06 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(ceny); groups with view permissions: Set(); users  with modify permissions: Set(ceny); groups with modify permissions: Set()
+16/12/19 05:39:06 INFO ExecutorRunner: Launch command: "/home/ceny/jdk1.7.0_79/bin/java" "-cp" "/home/ceny/tools/spark-2.0.2-bin-hadoop2.7/conf/:/home/ceny/tools/spark-2.0.2-bin-hadoop2.7/jars/*" "-Xmx1024M" "-Dspark.driver.port=48812" "-XX:MaxPermSize=256m" "org.apache.spark.executor.CoarseGrainedExecutorBackend" "--driver-url" "spark://CoarseGrainedScheduler@192.168.1.116:48812" "--executor-id" "0" "--hostname" "192.168.1.116" "--cores" "4" "--app-id" "app-20161219053906-0007" "--worker-url" "spark://Worker@192.168.1.116:58648"
+16/12/19 05:39:12 INFO Worker: Asked to kill executor app-20161219053906-0007/0
+16/12/19 05:39:12 INFO ExecutorRunner: Runner thread for executor app-20161219053906-0007/0 interrupted
+16/12/19 05:39:12 INFO ExecutorRunner: Killing process!
+16/12/19 05:39:13 INFO Worker: Executor app-20161219053906-0007/0 finished with state KILLED exitStatus 143
+16/12/19 05:39:13 INFO Worker: Cleaning up local directories for application app-20161219053906-0007
+16/12/19 05:39:13 INFO ExternalShuffleBlockResolver: Application app-20161219053906-0007 removed, cleanupLocalDirs = true
+16/12/19 05:40:59 INFO Worker: Asked to launch executor app-20161219054059-0008/0 for SPARK_MODEL
+16/12/19 05:40:59 INFO SecurityManager: Changing view acls to: ceny
+16/12/19 05:40:59 INFO SecurityManager: Changing modify acls to: ceny
+16/12/19 05:40:59 INFO SecurityManager: Changing view acls groups to: 
+16/12/19 05:40:59 INFO SecurityManager: Changing modify acls groups to: 
+16/12/19 05:40:59 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(ceny); groups with view permissions: Set(); users  with modify permissions: Set(ceny); groups with modify permissions: Set()
+16/12/19 05:40:59 INFO ExecutorRunner: Launch command: "/home/ceny/jdk1.7.0_79/bin/java" "-cp" "/home/ceny/tools/spark-2.0.2-bin-hadoop2.7/conf/:/home/ceny/tools/spark-2.0.2-bin-hadoop2.7/jars/*" "-Xmx1024M" "-Dspark.driver.port=39389" "-XX:MaxPermSize=256m" "org.apache.spark.executor.CoarseGrainedExecutorBackend" "--driver-url" "spark://CoarseGrainedScheduler@192.168.1.116:39389" "--executor-id" "0" "--hostname" "192.168.1.116" "--cores" "4" "--app-id" "app-20161219054059-0008" "--worker-url" "spark://Worker@192.168.1.116:58648"
+16/12/19 05:41:03 INFO Worker: Asked to kill executor app-20161219054059-0008/0
+16/12/19 05:41:03 INFO ExecutorRunner: Runner thread for executor app-20161219054059-0008/0 interrupted
+16/12/19 05:41:03 INFO ExecutorRunner: Killing process!
+16/12/19 05:41:04 INFO Worker: Executor app-20161219054059-0008/0 finished with state KILLED exitStatus 143
+16/12/19 05:41:04 INFO Worker: Cleaning up local directories for application app-20161219054059-0008
+16/12/19 05:41:04 INFO ExternalShuffleBlockResolver: Application app-20161219054059-0008 removed, cleanupLocalDirs = true
+16/12/19 05:55:03 ERROR Worker: RECEIVED SIGNAL TERM
+16/12/19 05:55:03 INFO ShutdownHookManager: Shutdown hook called
+16/12/19 05:55:03 INFO ShutdownHookManager: Deleting directory /tmp/spark-f7419be4-ec17-4e7a-b7a8-7a13c9e25662

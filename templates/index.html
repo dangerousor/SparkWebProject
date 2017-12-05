@@ -1,13 +1,382 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title> R - 文件分享工具</title>
-        <link rel="stylesheet" href="/static/stylesheets/index.css" />
-        <script src="/static/javascripts/vendors.js"></script>
-    </head>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>分布式计算平台</title>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <script src="/static/js/jquery-1.10.2.min.js"></script>
+    <script src="/static/js/data.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+</head>
+<body style="margin:50px">
 
-    <body>
-        <div id="main"></div>
-        <script src="/static/javascripts/index.js"></script>
-    </body>
+
+<ul id="myTab" class="nav nav-tabs">
+    <li class="active"><a href="#basic" data-toggle="tab" style="font-size: 18px;font-family: Monospaced">训练模型</a></li>
+    <li><a href="#model" data-toggle="tab" onclick="seeModel()" style="font-size: 18px;font-family: Monospaced">查看模型</a></li>
+    <li><a href="#task" data-toggle="tab" onclick="seeTask()" style="font-size: 18px;font-family: Monospaced">查看任务</a></li>
+    <li><a href="#document" data-toggle="tab" onclick="seeDoc()" style="font-size: 18px;font-family: Monospaced">帮助文档</a></li>
+</ul>
+<div id="myTabContent" class="tab-content" style="padding: 40px">
+    <div class="tab-pane fade in active" id="basic">
+        <div class="input-group" style="width:350px">
+            <span class="input-group-addon" style="width:150px">请选择模型</span>
+            <select class="form-control" id="modelList" >
+##                 <option selected="selected" value="LogisticRegression">逻辑回归</option>
+##                 <option value="RandomForest">随机森林</option>
+##                 <option value="DecisionTree">决策树</option>
+                <option value="KMeans">KMeans</option>
+##                 <option value="GaussianMixture">高斯混合模型</option>
+            </select>
+        </div>
+        <br />
+
+        <div class="input-group" style="width:350px">
+            <span class="input-group-addon" style="width:150px">请选择数据集</span>
+            <select class="form-control" id="trainDataList" >
+            </select>
+        </div>
+        <br />
+
+        <div class="input-group" style="width:350px">
+            <span class="input-group-addon" style="width:150px">参数1</span>
+            <input id="param1" type="text" class="form-control" placeholder="TODO">
+        </div>
+        <br />
+
+        <div class="input-group" style="width:350px">
+            <span class="input-group-addon" style="width:150px">参数2</span>
+            <input id="param2" type="text" class="form-control" placeholder="TODO">
+        </div>
+        <br />
+
+        <div class="input-group" style="width:350px">
+            <span class="input-group-addon" style="width:150px">备注</span>
+            <input id="modelComment" type="text" class="form-control" placeholder="填写备注">
+        </div>
+        <br />
+
+        <button type="button" class="btn btn-primary btn-lg" onclick="submitModel()">提　交</button>
+
+    </div>
+    <div class="tab-pane fade" id="model">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>模型列表</h4>
+                <span style="font-size: 25px">共计</span>
+                <span id="countModel" style="color: #c14646;font-size: 50px;font-family: inherit"></span>
+                <span style="font-size: 25px">个</span>
+                <button type="button" class="btn btn-primary btn-lg"style="float: right" onclick="seeModel()">刷　新</button>
+            </div>
+            <hr />
+            <table class="table" id="modelTable">
+                <tr>
+                    <th>模型</th>
+                    <th>训练数据集</th>
+                    <th>提交时间</th>
+                    <th>终止时间</th>
+                    <th>状态</th>
+                    <th>备注</th>
+                    <th>操作</th>
+                    <th>删除</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="task">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>任务列表</h4>
+                <span style="font-size: 25px">共计</span>
+                <span id="countTask" style="color: #c14646;font-size: 50px;font-family: inherit"></span>
+                <span style="font-size: 25px">个</span>
+                <button type="button" class="btn btn-primary btn-lg" style="float: right" onclick="seeTask()">刷　新</button>
+            </div>
+            <hr />
+            <table class="table" id="taskTable">
+                <tr>
+                    <th>模型</th>
+                    <th>测试数据集</th>
+                    <th>提交时间</th>
+                    <th>终止时间</th>
+                    <th>状态</th>
+                    <th>备注</th>
+                    <th>下载</th>
+                    <th>删除</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="document">
+        <blockquote>
+            <p><a href="http://10.141.245.136:8080/" target="_blank">点此</a>查看集群详情</p>
+        </blockquote>
+        <blockquote>
+            <h3>有监督学习</h3>
+            <ul>
+                <li>逻辑回归</li>
+                <li>随机森林</li>
+                <li>决策树</li>
+            </ul>
+        </blockquote>
+        <blockquote>
+            <h3>无监督学习</h3>
+            <ul>
+                <li>KMeans</li>
+                <li>高斯混合模型</li>
+            </ul>
+        </blockquote>
+        <blockquote>
+            <h3>关于我们</h3>
+        </blockquote>
+        <!--<a href="http://localhost:8080/">点此</a>查看集群详情-->
+    </div>
+</div>
+
+<script>
+
+//    var data = window.data;
+//    var fileTypeList = ["jpg","png","jpeg","mp4","ogg","swf","txt"];
+
+    var currentUserId;
+    var currentModelId;
+    $(function(){
+        currentUserId = 24;
+        $.get("trainfile/"+currentUserId,function(data){
+            var tmp = data["fileNameList"];
+            for(var i=0;i<tmp.length;i++){
+                var onenode = "<option value=" + "\"" + tmp[i]+"\">"+tmp[i]+"</option>";
+                $("#trainDataList").append(onenode);
+            }
+        });
+        $.get("testfile/"+currentUserId,function(data){
+            var tmp = data["fileNameList"];
+            for(var i=0;i<tmp.length;i++){
+                var onenode = "<option value=" + "\"" + tmp[i]+"\">"+tmp[i]+"</option>";
+                $("#testDataList").append(onenode);
+            }
+        });
+    });
+    function switchModelId(modelId){
+        currentModelId = modelId;
+    }
+
+    //---------------------init--------------------------------
+
+
+    var currentId = -1;
+    function switchId(id){
+        currentId = id;
+    }
+
+
+    function submitModel(){
+        var modelName = document.getElementById("modelList").value;
+        var dataName = document.getElementById("trainDataList").value;
+        var param = "";
+        var comment = document.getElementById("modelComment").value;
+        $.post("model/"+currentUserId,{"modelName":modelName,"dataName":dataName,"param":param,"comment":comment},function(data){
+            if(data["status"] == 1){
+                alert("模型提交成功");
+            }
+            else{
+                alert("模型提交失败");
+            }
+        });
+//        alert("OK , I will submit the model for traing");
+    }
+
+    function seeModel(){
+        $(".tmptr").remove();
+        $.get("model/"+currentUserId,function(data){
+            $("#countModel").text(data["size"]);
+            for(var i=0;i<data["content"].length;i++){
+                var tmp = data["content"][i];
+                var tmpstr = "<td>"+tmp["modelName"]+"</td>";
+                tmpstr += "<td>"+tmp["trainData"]+"</td>";
+                tmpstr += "<td>"+tmp["submitTime"]+"</td>";
+                tmpstr += "<td>"+tmp["endTime"]+"</td>";
+                if(tmp["status"] == 0){
+                    tmpstr += "<td>正在运行</td>";
+                }
+                else if(tmp["status"] == 1){
+                    tmpstr +="<td>成功</td>";
+                }
+                else{
+                    tmpstr +="<td>失败</td>";
+                }
+                tmpstr　+= "<td>"+tmp["comment"]+"</td>";
+                if(tmp["status"]!=1){
+                    tmpstr += "<td>---</td>"
+                }
+                else{
+                    if(tmp["modelCategory"] == 1){
+                        tmpstr += "<td><button type='button' class='btn btn-warning' onclick='switchModelId("+tmp["id"]+")' data-toggle='modal' data-target='#selectTestData'>选择测试集</button></td>"
+                    }
+                    else{
+                        tmpstr += "<td><button type='button' class='btn btn-success' onclick='submitTaskWithModelId("+tmp["id"]+")'>提交任务</button></td>"
+                    }
+                }
+                tmpstr += "<td><button type='button' class='btn btn-danger' onclick='deleteModel("+tmp["id"]+")'>删除模型</button></td>"
+                if(i%2==0){
+                    $("#modelTable").append("<tr class = 'tmptr' bgcolor='#F0F8FF'>"+tmpstr+"</tr>");
+                }
+                else{
+                    $("#modelTable").append("<tr class = 'tmptr' bgcolor='#EEEEE0'>"+tmpstr+"</tr>");
+                }
+
+            }
+        });
+    }
+
+
+    function submitTask(){
+        var dataName = document.getElementById("testDataList").value;
+        var comment = document.getElementById("taskComment").value;
+        $.post("task/"+currentModelId,{"dataName":dataName,"comment":comment},function(data){
+            if(data["status"] == 1){
+                alert("任务提交成功");
+            }
+            else{
+                alert("任务提交失败");
+            }
+            $("#selectTestData").modal("hide");
+        });
+    }
+
+    function submitTaskWithModelId(modelId){
+        $.post("task/"+modelId,{},function(data){
+            if(data["status"] == 1){
+                alert("任务提交成功");
+            }
+            else{
+                alert("任务提交失败");
+            }
+//            $("#selectTestData").modal("hide");
+        });
+    }
+
+
+    function deleteModel(modelId){
+        if(confirm("确定要删除该模型吗?该模型对应的任务会一并删除.")){
+            $.post("model/md/"+modelId,{},function(data){
+                if(data["status"] == 1){
+                    alert("删除成功");
+                    seeModel();
+                }
+                else{
+                    alert("删除失败");
+                }
+            });
+        }
+    }
+
+    function deleteTask(taskId){
+        if(confirm("确定要删除该任务吗?")){
+            $.post("task/td/"+taskId,{},function(data){
+                if(data["status"] == 1){
+                    alert("删除成功");
+                    seeTask();
+                }
+                else{
+                    alert("删除失败");
+                }
+            });
+        }
+    }
+
+
+    function download(taskId){
+        window.open("task/download/"+taskId);
+//        $.get("task/download/"+taskId,function(data){
+//        });
+    }
+
+    function seeTask(){
+        $(".tmptr").remove();
+        $.get("task/"+currentUserId,function(data){
+            $("#countTask").text(data["size"]);
+            for(var i=0;i<data["content"].length;i++){
+                var tmp = data["content"][i];
+                var tmpstr = "<td>"+tmp[0]+"</td>";
+                if(tmp[1]){
+                    var datapath = tmp[1].split('/');
+                    tmpstr += "<td>"+datapath[datapath.length-1]+"</td>";
+                }
+                else{
+                    tmpstr += "<td>---</td>";
+                }
+                tmpstr += "<td>"+tmp[2]+"</td>";
+                tmpstr += "<td>"+tmp[3]+"</td>";
+                if(tmp[4] == 0){
+                    tmpstr += "<td>正在运行</td>";
+                }
+                else if(tmp[4] == 1){
+                    tmpstr +="<td>成功</td>";
+                }
+                else{
+                    tmpstr +="<td>失败</td>";
+                }
+                tmpstr　+= "<td>"+tmp[5]+"</td>";
+                if(tmp[4]!=1){
+                    tmpstr += "<td>---</td>"
+                }
+                else{
+                    tmpstr += "<td><button type='button' class='btn btn-success' onclick='download("+tmp[6]+")'>下载结果</button></td>"
+                }
+                tmpstr += "<td><button type='button' class='btn btn-danger' onclick='deleteTask("+tmp[6]+")'>删除任务</button></td>";
+                if(i%2==0){
+                    $("#taskTable").append("<tr class = 'tmptr' bgcolor='#F0F8FF'>"+tmpstr+"</tr>");
+                }
+                else{
+                    $("#taskTable").append("<tr class = 'tmptr' bgcolor='#EEEEE0'>"+tmpstr+"</tr>");
+                }
+
+            }
+        });
+    }
+
+    function seeDoc(){
+//        alert("doc doc!");
+    }
+
+    function seeWeb(){
+        window.open("http://localhost:8080/","_blank");
+//        window.location.href="http://localhost:8080/";
+    }
+
+
+
+</script>
+
+
+<div class="modal fade bs-example-modal-lg" id="selectTestData" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">选择测试集</h4>
+            </div>
+
+            <div class="modal-body text-center">
+                <div class="input-group" style="width:450px">
+                    <span class="input-group-addon" style="width:150px">请选择数据集</span>
+                    <select class="form-control" id="testDataList" >
+                    </select>
+                </div>
+                <br />
+                <div class="input-group" style="width:450px">
+                    <span class="input-group-addon" style="width:150px">备注</span>
+                    <input id="taskComment" type="text" class="form-control" placeholder="填写备注">
+                </div>
+                <br />
+                <button type="button" class="btn btn-primary btn-lg" onclick="submitTask()">提交任务</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+</body>
 </html>
