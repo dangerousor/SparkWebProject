@@ -3,34 +3,33 @@
 
 import time
 
-from ext import con, lock
+from ext import cur, lock
 from consts import PROJECT_PATH
 
 
 def domodelspark(modelid):
     lock.acquire()
-    with con as cur:
-        sql = 'select user,modelname,dataname from model where id = ' + modelid
-        cur.execute(sql)
-        model = cur.fetchone()
-        if len(model) == 0:
-            lock.release()
-            return
-        else:
-            pass
-        flag = 0
-        if model[1] == 'KMeans':
-            try:
-                modelfile = dokmeans(model[0], model[2], modelid)
-            except:
-                flag = 1
-        else:
-            pass
-        now = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-        if flag == 0:
-            cur.execute('update model set status = ' + '1' + ', endtime = ' + '"' + now + '", modelfile = "' + modelfile + '" where id = ' + modelid)
-        else:
-            cur.execute('update model set status = ' + '2' + ', endtime = ' + '"' + now + '" where id = ' + modelid)
+    sql = 'select user,modelname,dataname from model where id = ' + modelid
+    cur.execute(sql)
+    model = cur.fetchone()
+    if model is None:
+        lock.release()
+        return
+    else:
+        pass
+    flag = 0
+    if model[1] == 'KMeans':
+        try:
+            modelfile = dokmeans(model[0], model[2], modelid)
+        except:
+            flag = 1
+    else:
+        pass
+    now = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+    if flag == 0:
+        cur.execute('update model set status = ' + '1' + ', endtime = ' + '"' + now + '", modelfile = "' + modelfile + '" where id = ' + modelid)
+    else:
+        cur.execute('update model set status = ' + '2' + ', endtime = ' + '"' + now + '" where id = ' + modelid)
     lock.release()
     return 0
 
@@ -38,27 +37,26 @@ def domodelspark(modelid):
 def dotaskspark(taskid):
     lock.acquire()
     flag = 0
-    with con as cur:
-        sql = 'select user,modelname,testfile, modelfile from task where id = ' + taskid
-        cur.execute(sql)
-        task = cur.fetchone()
-        if len(task) == 0:
-            lock.release()
-            return
-        else:
-            pass
-        if task[1] == 'KMeans':
-            try:
-                modelfile = dotaskkmeans(task[0], task[2], taskid)
-            except:
-                flag = 1
-        else:
-            pass
-        now = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-        if flag == 0:
-            cur.execute('update task set status = ' + '1' + ', endtime = ' + '"' + now + '", resultfile = "' + modelfile + '" where id = ' + taskid)
-        else:
-            cur.execute('update task set status = ' + '2' + ', endtime = ' + '"' + now + '" where id = ' + taskid)
+    sql = 'select user,modelname,testfile, modelfile from task where id = ' + taskid
+    cur.execute(sql)
+    task = cur.fetchone()
+    if task is None:
+        lock.release()
+        return
+    else:
+        pass
+    if task[1] == 'KMeans':
+        try:
+            modelfile = dotaskkmeans(task[0], task[2], taskid)
+        except:
+            flag = 1
+    else:
+        pass
+    now = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+    if flag == 0:
+        cur.execute('update task set status = ' + '1' + ', endtime = ' + '"' + now + '", resultfile = "' + modelfile + '" where id = ' + taskid)
+    else:
+        cur.execute('update task set status = ' + '2' + ', endtime = ' + '"' + now + '" where id = ' + taskid)
     lock.release()
     return 0
 
