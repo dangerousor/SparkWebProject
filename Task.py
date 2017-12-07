@@ -77,7 +77,6 @@ def task(modelid):
                 tmp['id'] = row[0]
                 content.append(tmp)
             result['content'] = content
-        print jsonify(result)
         return jsonify(result)
 
 
