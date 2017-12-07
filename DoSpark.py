@@ -3,15 +3,16 @@
 
 import time
 
-from ext import cur, lock
+from ext import con, lock
 from consts import PROJECT_PATH
 
 
 def domodelspark(modelid):
     lock.acquire()
     sql = 'select user,modelname,dataname from model where id = ' + modelid
-    cur.execute(sql)
-    model = cur.fetchone()
+    with con as cur:
+        cur.execute(sql)
+        model = cur.fetchone()
     if model is None:
         lock.release()
         return
@@ -26,10 +27,11 @@ def domodelspark(modelid):
     else:
         pass
     now = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-    if flag == 0:
-        cur.execute('update model set status = ' + '1' + ', endtime = ' + '"' + now + '", modelfile = "' + modelfile + '" where id = ' + modelid)
-    else:
-        cur.execute('update model set status = ' + '2' + ', endtime = ' + '"' + now + '" where id = ' + modelid)
+    with con as cur:
+        if flag == 0:
+            cur.execute('update model set status = ' + '1' + ', endtime = ' + '"' + now + '", modelfile = "' + modelfile + '" where id = ' + modelid)
+        else:
+            cur.execute('update model set status = ' + '2' + ', endtime = ' + '"' + now + '" where id = ' + modelid)
     lock.release()
     return 0
 
@@ -38,8 +40,9 @@ def dotaskspark(taskid):
     lock.acquire()
     flag = 0
     sql = 'select user,modelname,testfile, modelfile from task where id = ' + taskid
-    cur.execute(sql)
-    task = cur.fetchone()
+    with con as cur:
+        cur.execute(sql)
+        task = cur.fetchone()
     if task is None:
         lock.release()
         return
@@ -53,10 +56,11 @@ def dotaskspark(taskid):
     else:
         pass
     now = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-    if flag == 0:
-        cur.execute('update task set status = ' + '1' + ', endtime = ' + '"' + now + '", resultfile = "' + modelfile + '" where id = ' + taskid)
-    else:
-        cur.execute('update task set status = ' + '2' + ', endtime = ' + '"' + now + '" where id = ' + taskid)
+    with con as cur:
+        if flag == 0:
+            cur.execute('update task set status = ' + '1' + ', endtime = ' + '"' + now + '", resultfile = "' + modelfile + '" where id = ' + taskid)
+        else:
+            cur.execute('update task set status = ' + '2' + ', endtime = ' + '"' + now + '" where id = ' + taskid)
     lock.release()
     return 0
 

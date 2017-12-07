@@ -8,7 +8,7 @@ from multiprocessing import Process
 import time
 import os
 
-from ext import cur
+from ext import con
 # from ext import conn
 from DoSpark import dotaskspark
 from consts import PROJECT_PATH
@@ -23,44 +23,49 @@ def task(modelid):
         data = request.form
         if len(data) == 0:
             sql = 'select user, modelname, dataname from model where id = ' + modelid
-            cur.execute(sql)
-            row = cur.fetchone()
+            with con as cur:
+                cur.execute(sql)
+                row = cur.fetchone()
             sql = 'insert task (modelid, subtime, status, testfile, modelname, category, user) values (' + modelid + ',"' + now + '",0,' + '"' + row[2] + '","' + row[1] + '",0,"' + row[0] + '")'
             # if row[3] is None:
             #     sql = 'insert task (modelid, subtime, status, testfile, modelname, category, user) values (' + modelid + ',"' + now + '",0,' + '"' + row[2] + '","' + row[1] + '",0,"' + row[0] + '")'
             # else:
             #     sql = 'insert task (modelid, subtime, status, testfile, comment, modelname, category, user) values (' + modelid + ',"' + now + '",0,' + '"' + row[2] + '","' + row[3] + '","' + row[1] + '",0,"' + row[0] + '")'
             try:
-                cur.execute(sql)
-                sql = 'select id from task where subtime = "' + now + '"'
-                cur.execute(sql)
-                row = cur.fetchone()
+                with con as cur:
+                    cur.execute(sql)
+                    sql = 'select id from task where subtime = "' + now + '"'
+                    cur.execute(sql)
+                    row = cur.fetchone()
                 p = Process(target=dotaskspark, args=(str(row[0]),))
                 p.start()
                 return jsonify({'status': 1})
             except:
                 return jsonify({'status': 0})
         else:
-            sql = 'select user, modelname, modelfile from model where id = ' + modelid
-            cur.execute(sql)
-            row = cur.fetchone()
+            with con as cur:
+                sql = 'select user, modelname, modelfile from model where id = ' + modelid
+                cur.execute(sql)
+                row = cur.fetchone()
             if data['comment'] == '':
                 sql = 'insert task (modelid, subtime, status, testfile, modelname, category, user, modelfile) values (' + modelid + ',"' + now + '",0,' + '"' + data['dataName'] + '","' + row[1] + '",0,"' + row[0] + '","' + row[2] + '")'
             else:
                 sql = 'insert task (modelid, subtime, status, testfile, comment, modelname, category, user, modelfile) values (' + modelid + ',"' + now + '",0,' + '"' + data['dataName'] + '","' + data['comment'] + '","' + row[1] + '",0,"' + row[0] + '","' + row[2] + '")'
             try:
-                cur.execute(sql)
-                sql = 'select id from task where subtime = "' + now + '"'
-                cur.execute(sql)
-                row = cur.fetchone()
+                with con as cur:
+                    cur.execute(sql)
+                    sql = 'select id from task where subtime = "' + now + '"'
+                    cur.execute(sql)
+                    row = cur.fetchone()
                 p = Process(target=dotaskspark, args=(str(row[0]),))
                 p.start()
                 return jsonify({'status': 1})
             except:
                 return jsonify({'status': 0})
     else:
-        cur.execute('select * from task where user = ' + modelid)
-        rows = cur.fetchall()
+        with con as cur:
+            cur.execute('select * from task where user = ' + modelid)
+            rows = cur.fetchall()
         result = {'size': len(rows)}
         content = []
         for row in rows:
@@ -84,7 +89,8 @@ def td(taskid):
     if request.method == "POST":
         try:
             sql = 'delete from task where id = ' + taskid
-            cur.execute(sql)
+            with con as cur:
+                cur.execute(sql)
             return jsonify({'status': 1})
         except:
             return jsonify({'status': -1})
@@ -94,8 +100,9 @@ def td(taskid):
 def download(taskid):
     if request.method == "GET":
         sql = 'select user from task where id = ' + taskid
-        cur.execute(sql)
-        row = cur.fetchone()
+        with con as cur:
+            cur.execute(sql)
+            row = cur.fetchone()
         user = row[0]
         if os.path.isfile(PROJECT_PATH + '/files/' + user + '/result/' + taskid):
             return send_from_directory(PROJECT_PATH + '/files/' + user + '/result/', taskid, as_attachment=True)

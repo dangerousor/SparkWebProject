@@ -7,7 +7,7 @@ from multiprocessing import Process
 # from pyspark.mllib.clustering import KMeans, KMeansModel, SparkContext
 import time
 
-from ext import cur
+from ext import con
 # from ext import conn
 from DoSpark import domodelspark
 
@@ -34,10 +34,11 @@ def model(user):
         value = '("' + user + '", "' + data["modelName"] + '","' + data["dataName"] + '",' + comment + ',"' + now + '",0 , 0)'
         sql = 'insert into model (user, modelname, dataname, comment, subtime, status, category) values ' + value
         try:
-            cur.execute(sql)
-            sql2 = 'select id from model where user = ' + user + ' and subtime = "' + now + '"'
-            cur.execute(sql2)
-            row = cur.fetchone()
+            with con as cur:
+                cur.execute(sql)
+                sql2 = 'select id from model where user = ' + user + ' and subtime = "' + now + '"'
+                cur.execute(sql2)
+                row = cur.fetchone()
             modelid = str(row[0])
             # conn.rpush(user, modelid)
             p = Process(target=domodelspark, args=(modelid,))
@@ -46,8 +47,9 @@ def model(user):
         except:
             return jsonify({'status': -1})
     else:
-        cur.execute('select * from model where user = ' + user)
-        rows = cur.fetchall()
+        with con as cur:
+            cur.execute('select * from model where user = ' + user)
+            rows = cur.fetchall()
         result = {'size': len(rows)}
         content = []
         for row in rows:
@@ -69,10 +71,11 @@ def model(user):
 def md(modelid):
     if request.method == 'POST':
         try:
-            sql = 'delete from model where id = ' + modelid
-            cur.execute(sql)
-            sql = 'delete from task where modelid =' + modelid
-            cur.execute(sql)
+            with con as cur:
+                sql = 'delete from model where id = ' + modelid
+                cur.execute(sql)
+                sql = 'delete from task where modelid =' + modelid
+                cur.execute(sql)
             return jsonify({'status': 1})
         except:
             return jsonify({'status': -1})
