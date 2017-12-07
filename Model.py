@@ -2,11 +2,14 @@
 # -*- coding:utf-8 -*-
 
 from flask import Blueprint, request, jsonify
+from multiprocessing import Process
 # from numpy import array
 # from pyspark.mllib.clustering import KMeans, KMeansModel, SparkContext
 import time
 
 from ext import con
+# from ext import conn
+from DoSpark import domodelspark
 
 bp = Blueprint('model', __name__, url_prefix='/model')
 
@@ -30,10 +33,16 @@ def model(user):
             comment = '"' + data['comment'] + '"'
         value = '("' + user + '", "' + data["modelName"] + '","' + data["dataName"] + '",' + comment + ',"' + now + '",0 , 0)'
         sql = 'insert into model (user, modelname, dataname, comment, subtime, status, category) values ' + value
-        print sql
         with con as cur:
             try:
                 cur.execute(sql)
+                sql2 = 'select id from model where user = ' + user + ' and subtime = "' + now + '"'
+                cur.execute(sql2)
+                row = cur.fetchone()
+                modelid = str(row[0])
+                # conn.rpush(user, modelid)
+                p = Process(target=domodelspark, args=(modelid,))
+                p.start()
                 return jsonify({'status': 1})
             except:
                 return jsonify({'status': -1})
@@ -52,6 +61,12 @@ def model(user):
                 tmp['endTime'] = row[6]
                 tmp['status'] = row[7]
                 tmp['modelCategory'] = row[8]
+                tmp['id'] = row[0]
                 content.append(tmp)
             result['content'] = content
         return jsonify(result)
+
+
+@bp.route('/md/<modelid>', methods=['POST'])
+def md(modelid):
+    pass

@@ -299,33 +299,32 @@
             $("#countTask").text(data["size"]);
             for(var i=0;i<data["content"].length;i++){
                 var tmp = data["content"][i];
-                var tmpstr = "<td>"+tmp[0]+"</td>";
-                if(tmp[1]){
-                    var datapath = tmp[1].split('/');
-                    tmpstr += "<td>"+datapath[datapath.length-1]+"</td>";
+                var tmpstr = "<td>"+tmp["modelName"]+"</td>";
+                if(tmp["testData"]){
+                    tmpstr += "<td>"+tmp["testData"]+"</td>";
                 }
                 else{
                     tmpstr += "<td>---</td>";
                 }
-                tmpstr += "<td>"+tmp[2]+"</td>";
-                tmpstr += "<td>"+tmp[3]+"</td>";
-                if(tmp[4] == 0){
+                tmpstr += "<td>"+tmp["submitTime"]+"</td>";
+                tmpstr += "<td>"+tmp["endTime"]+"</td>";
+                if(tmp["status"] == 0){
                     tmpstr += "<td>正在运行</td>";
                 }
-                else if(tmp[4] == 1){
+                else if(tmp["status"] == 1){
                     tmpstr +="<td>成功</td>";
                 }
                 else{
                     tmpstr +="<td>失败</td>";
                 }
-                tmpstr　+= "<td>"+tmp[5]+"</td>";
-                if(tmp[4]!=1){
+                tmpstr　+= "<td>"+tmp["comment"]+"</td>";
+                if(tmp["status"]!=1){
                     tmpstr += "<td>---</td>"
                 }
                 else{
-                    tmpstr += "<td><button type='button' class='btn btn-success' onclick='download("+tmp[6]+")'>下载结果</button></td>"
+                    tmpstr += "<td><button type='button' class='btn btn-success' onclick='download("+tmp["id"]+")'>下载结果</button></td>"
                 }
-                tmpstr += "<td><button type='button' class='btn btn-danger' onclick='deleteTask("+tmp[6]+")'>删除任务</button></td>";
+                tmpstr += "<td><button type='button' class='btn btn-danger' onclick='deleteTask("+tmp["id"]+")'>删除任务</button></td>";
                 if(i%2==0){
                     $("#taskTable").append("<tr class = 'tmptr' bgcolor='#F0F8FF'>"+tmpstr+"</tr>");
                 }

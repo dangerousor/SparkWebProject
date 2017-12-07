@@ -4,7 +4,8 @@ from flask import Flask, jsonify
 
 from ext import con, mako, render_template
 
-import submitModel
+import Model
+import Task
 
 
 app = Flask(__name__, template_folder='templates',
@@ -43,7 +44,8 @@ def testfile(id):
     return jsonify({'fileNameList': namelist})
 
 
-app.register_blueprint(submitModel.bp)
+app.register_blueprint(Model.bp)
+app.register_blueprint(Task.bp)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=9000, debug=True)
