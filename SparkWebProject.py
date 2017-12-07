@@ -44,6 +44,11 @@ def testfile(id):
     return jsonify({'fileNameList': namelist})
 
 
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('404.html'), 404
+
+
 app.register_blueprint(Model.bp)
 app.register_blueprint(Task.bp)
 

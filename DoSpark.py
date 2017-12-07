@@ -4,6 +4,7 @@
 import time
 
 from ext import con, lock
+from consts import PROJECT_PATH
 
 
 def domodelspark(modelid):
@@ -12,6 +13,11 @@ def domodelspark(modelid):
         sql = 'select user,modelname,dataname from model where id = ' + modelid
         cur.execute(sql)
         model = cur.fetchone()
+        if len(model) == 0:
+            lock.release()
+            return
+        else:
+            pass
         flag = 0
         if model[1] == 'KMeans':
             try:
@@ -35,10 +41,15 @@ def dotaskspark(taskid):
     with con as cur:
         sql = 'select user,modelname,testfile, modelfile from task where id = ' + taskid
         cur.execute(sql)
-        model = cur.fetchone()
-        if model[1] == 'KMeans':
+        task = cur.fetchone()
+        if len(task) == 0:
+            lock.release()
+            return
+        else:
+            pass
+        if task[1] == 'KMeans':
             try:
-                modelfile = dotaskkmeans(model[0], model[2], taskid)
+                modelfile = dotaskkmeans(task[0], task[2], taskid)
             except:
                 flag = 1
         else:
@@ -57,15 +68,19 @@ def dokmeans(user, datafile, modelid):
     # print textfile.collect()
     # textfile.saveAsTextFile("file://files/" + user + "/model/" + modelid)
     time.sleep(15)
-    print './files/' + user + '/train/' + datafile
-    # with open('./files/' + user + '/train/' + datafile, 'rb+') as f:
-    #     g = open('./files/' + user + '/model/' + datafile, 'ab+')
-    #     g.write(f.read())
-    #     g.close()
+    path1 = PROJECT_PATH + '/files/' + user + '/train/' + datafile
+    path2 = PROJECT_PATH + '/files/' + user + '/model/' + modelid
+    with open(path1, 'rb+') as f:
+        g = open(path2, 'ab+')
+        g.write(f.read())
+        g.close()
     return str(modelid)
 
 
 def dotaskkmeans(user, datafile, taskid):
     time.sleep(15)
-    print 'files/' + user + '/result/' + taskid
+    with open(PROJECT_PATH + '/files/' + user + '/train/' + datafile, 'rb+') as f:
+        g = open(PROJECT_PATH + '/files/' + user + '/result/' + taskid, 'ab+')
+        g.write(f.read())
+        g.close()
     return str(taskid)

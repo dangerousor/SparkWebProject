@@ -69,4 +69,13 @@ def model(user):
 
 @bp.route('/md/<modelid>', methods=['POST'])
 def md(modelid):
-    pass
+    if request.method == 'POST':
+        try:
+            with con as cur:
+                sql = 'delete from model where id = ' + modelid
+                cur.execute(sql)
+                sql = 'delete from task where modelid =' + modelid
+                cur.execute(sql)
+            return jsonify({'status': 1})
+        except:
+            return jsonify({'status': -1})

@@ -1,15 +1,17 @@
 #!/usr/bin/python
 # -*- coding:utf-8 -*-
 
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, abort, send_from_directory
 from multiprocessing import Process
 # from numpy import array
 # from pyspark.mllib.clustering import KMeans, KMeansModel, SparkContext
 import time
+import os
 
 from ext import con
 # from ext import conn
 from DoSpark import dotaskspark
+from consts import PROJECT_PATH
 
 bp = Blueprint('task', __name__, url_prefix='/task')
 
@@ -82,9 +84,24 @@ def task(modelid):
 
 @bp.route('/td/<taskid>', methods=['POST'])
 def td(taskid):
-    pass
+    if request.method == "POST":
+        try:
+            with con as cur:
+                sql = 'delete from task where id = ' + taskid
+                cur.execute(sql)
+            return jsonify({'status': 1})
+        except:
+            return jsonify({'status': -1})
 
 
 @bp.route('/download/<taskid>', methods=['GET'])
 def download(taskid):
-    pass
+    if request.method == "GET":
+        with con as cur:
+            sql = 'select user from task where id = ' + taskid
+            cur.execute(sql)
+            row = cur.fetchone()
+            user = row[0]
+        if os.path.isfile(PROJECT_PATH + '/files/' + user + '/result/' + taskid):
+            return send_from_directory(PROJECT_PATH + '/files/' + user + '/result/', taskid, as_attachment=True)
+        abort(404)
