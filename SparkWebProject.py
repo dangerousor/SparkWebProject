@@ -2,7 +2,7 @@
 
 from flask import Flask, jsonify
 
-from ext import con, mako, render_template
+from ext import get_con, mako, render_template
 
 import Model
 import Task
@@ -24,23 +24,27 @@ def hello_world():
 
 @app.route('/trainfile/<id>', methods=['GET'])
 def trainfile(id):
-    with con as cur:
-        cur.execute("select * from trainfile where user = " + id)
-        rows = cur.fetchall()
-        namelist = []
-        for row in rows:
-            namelist.append(row[1])
+    con = get_con()
+    cur = con.cursor()
+    cur.execute("select * from trainfile where user = " + id)
+    rows = cur.fetchall()
+    con.close()
+    namelist = []
+    for row in rows:
+        namelist.append(row[1])
     return jsonify({'fileNameList': namelist})
 
 
 @app.route('/testfile/<id>', methods=['GET'])
 def testfile(id):
-    with con as cur:
-        cur.execute("select * from testfile where user = " + id)
-        rows = cur.fetchall()
-        namelist = []
-        for row in rows:
-            namelist.append(row[1])
+    con = get_con()
+    cur = con.cursor()
+    cur.execute("select * from testfile where user = " + id)
+    rows = cur.fetchall()
+    con.close()
+    namelist = []
+    for row in rows:
+        namelist.append(row[1])
     return jsonify({'fileNameList': namelist})
 
 
