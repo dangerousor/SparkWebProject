@@ -12,7 +12,8 @@ import pyspark
 from pyspark.mllib.clustering import KMeans
 
 
-SPARK_MASTER = 'spark://dangerous-Lenovo-Product:7077'
+# SPARK_MASTER = 'spark://dangerous-Lenovo-Product:7077'
+SPARK_MASTER = 'spark://blade01:7077'
 # SPARK_MASTER就是集群的master的url
 
 
@@ -77,7 +78,8 @@ def dokmeans(user, datafile, modelid):
     # print textfile.collect()
     # textfile.saveAsTextFile("file://files/" + user + "/model/" + modelid)
     # time.sleep(15)
-    path1 = 'file://' + PROJECT_PATH + '/files/' + user + '/train/' + datafile
+    # path1 = 'file://' + PROJECT_PATH + '/files/' + user + '/train/' + datafile
+    path1 = 'hdfs://blade01:9000' + '/user/hadoop' + '/files/' + user + '/' + datafile
     path2 = 'file://' + PROJECT_PATH + '/files/' + user + '/model/' + modelid + '.txt'
     # with open(path1, 'rb+') as f:
     #     g = open(path2, 'ab+')
@@ -101,6 +103,7 @@ def kmeans_model(file_path, file_out):
     y = pyspark.SparkConf()
     y.setMaster(SPARK_MASTER)
     # y.setSparkHome('/usr/local/spark')
+    print file_path
     sc = pyspark.SparkContext(conf=y)
     textfile = sc.textFile(file_path)
     print textfile.collect()
@@ -108,9 +111,10 @@ def kmeans_model(file_path, file_out):
     y = textfile.map(lambda each: each.split(' ')[1:])
     p = re.compile('\d:')
     z = y.map(lambda x: transform(x, p))
+    z = z.map(lambda x: [float(each) for each in x])
     print z.collect()
     model = KMeans.train(z, 2)
-    print model.centers()
+    print model.clusterCenters
     # textfile.saveAsTextFile(file_out)
     model.save(sc, file_out)
     """
