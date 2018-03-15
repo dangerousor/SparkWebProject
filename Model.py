@@ -2,16 +2,17 @@
 # -*- coding:utf-8 -*-
 
 from flask import Blueprint, request, jsonify
-from multiprocessing import Process
+import redis
 # from numpy import array
 # from pyspark.mllib.clustering import KMeans, KMeansModel, SparkContext
 import time
 
-from ext import con
+from ext import get_con
 # from ext import conn
-from DoSpark import domodelspark
+# from DoSpark import domodelspark
 
 bp = Blueprint('model', __name__, url_prefix='/model')
+r = redis.Redis(host="localhost", port=6379)
 
 
 @bp.route('/<user>', methods=['POST', 'GET'])
@@ -34,22 +35,26 @@ def model(user):
         value = '("' + user + '", "' + data["modelName"] + '","' + data["dataName"] + '",' + comment + ',"' + now + '",0 , 0)'
         sql = 'insert into model (user, modelname, dataname, comment, subtime, status, category) values ' + value
         try:
-            with con as cur:
-                cur.execute(sql)
-                sql2 = 'select id from model where user = ' + user + ' and subtime = "' + now + '"'
-                cur.execute(sql2)
-                row = cur.fetchone()
+            con = get_con()
+            cur = con.cursor()
+            cur.execute(sql)
+            con.commit()
+            sql2 = 'select id from model where user = ' + user + ' and subtime = "' + now + '"'
+            cur.execute(sql2)
+            row = cur.fetchone()
+            con.close()
             modelid = str(row[0])
             # conn.rpush(user, modelid)
-            p = Process(target=domodelspark, args=(modelid,))
-            p.start()
+            temp = r.rpush('model', modelid)
             return jsonify({'status': 1})
         except:
             return jsonify({'status': -1})
     else:
-        with con as cur:
-            cur.execute('select * from model where user = ' + user)
-            rows = cur.fetchall()
+        con = get_con()
+        cur = con.cursor()
+        cur.execute('select * from model where user = ' + user)
+        rows = cur.fetchall()
+        con.close()
         result = {'size': len(rows)}
         content = []
         for row in rows:
@@ -71,11 +76,14 @@ def model(user):
 def md(modelid):
     if request.method == 'POST':
         try:
-            with con as cur:
-                sql = 'delete from model where id = ' + modelid
-                cur.execute(sql)
-                sql = 'delete from task where modelid =' + modelid
-                cur.execute(sql)
+            con = get_con()
+            cur = con.cursor()
+            sql = 'delete from model where id = ' + modelid
+            cur.execute(sql)
+            sql = 'delete from task where modelid =' + modelid
+            cur.execute(sql)
+            con.commit()
+            con.close()
             return jsonify({'status': 1})
         except:
             return jsonify({'status': -1})
