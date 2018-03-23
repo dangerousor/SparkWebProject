@@ -8,6 +8,7 @@ from consts import PROJECT_PATH
 
 
 import re
+import numpy
 import pyspark
 from pyspark.mllib.clustering import KMeans
 
@@ -104,7 +105,10 @@ def kmeans_model(file_path, file_out):
     y.setMaster(SPARK_MASTER)
     # y.setSparkHome('/usr/local/spark')
     print file_path
+    print y.getAll()
     sc = pyspark.SparkContext(conf=y)
+    # print sc.pythonExec
+    # print sc.pythonVer
     textfile = sc.textFile(file_path)
     print textfile.collect()
     print textfile.count()
@@ -117,6 +121,7 @@ def kmeans_model(file_path, file_out):
     print model.clusterCenters
     # textfile.saveAsTextFile(file_out)
     model.save(sc, file_out)
+    sc.stop()
     """
         对输入的kmeans数据文件内容x进行处理，并且使用kmeans分类。
     """
