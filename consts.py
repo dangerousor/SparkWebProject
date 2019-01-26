@@ -2,9 +2,9 @@
 # -*- coding:utf-8 -*-
 
 
-HOSTNAME = 'localhost'
+HOSTNAME = '10.141.245.142'
 DATABASE = 'SparkWebProject'
-USERNAME = 'root'
+USERNAME = 'dangerousor'
 PASSWORD = 'liuxiaofeng'
 PROJECT_PATH = '/home/dangerous/PycharmProjects/SparkWebProject'
 SPARK_MASTER = 'spark://dangerous-Lenovo-Product:7077'
